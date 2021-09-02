@@ -7,7 +7,16 @@ package com.code;
  **/
 public class LinkedListTest {
 
+    /**
+     * 链表的技巧
+     * 在双向链表的实现中，
+     * 使用一个伪头部（dummy head）和伪尾部（dummy tail）标记界限，
+     * 这样在添加节点和删除节点的时候就不需要检查相邻的节点是否存在。
+     * 例如 判断 当前节点是head 判断 prev，是tail 判断 next等。
+     * @param args
+     */
     public static void main(String[] args) {
+
         Node head = new Node(1);
         head.next = new Node(2);
         // head.next.next = new Node(3);
@@ -32,6 +41,7 @@ public class LinkedListTest {
             head = head.next;
         }
     }
+
 
     /**
      * 使用单链表构建 队列 、 栈
