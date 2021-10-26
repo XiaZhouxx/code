@@ -3,7 +3,12 @@ package com.code;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author xz
@@ -28,6 +33,77 @@ public class MainApplication {
             ctl = unsafe.staticFieldOffset(i1);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * 当前存在一个重量为N的背包, 一组物品价格和重量, 找出可以存储的最大价格, 并且当剩余weight无法存储足够商品时
+     * 允许存储部分商品.
+     */
+    public static BigDecimal searchMaxSumMoney(int[] weights, int[] moneys, BigDecimal maxWeight) {
+        /*
+        * 思路：
+        *  贪心算法, 计算出每个商品的性价比. 然后按性价比最高的排序后,
+        *  逐一遍历 得到最优性价比组合. 部分背包问题. 如果不允许存储部分商品则需要采用动态规划-待学习.
+         */
+        List<Item> items = new ArrayList<>(weights.length);
+        for (int i = 0; i < weights.length; i++) {
+            items.add(new Item(weights[i], moneys[i]));
+        }
+        BigDecimal maxV = BigDecimal.ZERO;
+        // 排序, Item 中计算性价比. 因为背包是重量, 所以采用 价格 / 重量得到 1 重量占价格比的性价比
+        Collections.sort(items);
+        for (Item i : items) {
+            // 当前背包能够存放最高性价比的物品直接放入
+            if (i.weight.compareTo(maxWeight) <= 0) {
+                maxWeight = maxWeight.subtract(i.weight);
+                maxV = maxV.add(i.money);
+            } else {
+                // 不能放入则计算部分.
+                maxV = maxV.add(i.money.divide(i.weight.divide(maxWeight, 2, RoundingMode.DOWN), 2, RoundingMode.DOWN));
+                break;
+            }
+        }
+        return maxV;
+    }
+    static class Item implements Comparable<Item> {
+        BigDecimal weight;
+        BigDecimal money;
+        BigDecimal proportion;
+
+        public Item(int weight, int money) {
+            this.weight = BigDecimal.valueOf(weight);
+            this.money = BigDecimal.valueOf(money);
+            this.proportion = this.money.divide(this.weight, 2 , RoundingMode.DOWN);
+        }
+
+        @Override
+        public int compareTo(Item o) {
+            return o.proportion.compareTo(this.proportion);
+        }
+
+        public BigDecimal getWeight() {
+            return weight;
+        }
+
+        public void setWeight(BigDecimal weight) {
+            this.weight = weight;
+        }
+
+        public BigDecimal getMoney() {
+            return money;
+        }
+
+        public void setMoney(BigDecimal money) {
+            this.money = money;
+        }
+
+        public BigDecimal getProportion() {
+            return proportion;
+        }
+
+        public void setProportion(BigDecimal proportion) {
+            this.proportion = proportion;
         }
     }
 
@@ -62,6 +138,10 @@ public class MainApplication {
     }
 
     public static void main(String[] args) {
+        int[] weights = new int[]{1, 3, 4, 6, 8};
+        int[] moneys = new int[]{4, 3, 9, 3, 2};
+        BigDecimal maxWeight = BigDecimal.valueOf(10);
+        System.out.println(        searchMaxSumMoney(weights, moneys, maxWeight));
         System.out.println(getSum(0, 0));
         unsafe.compareAndSwapInt(MainApplication.class, ctl, 0, 10);
         System.out.println(i);
