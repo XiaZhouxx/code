@@ -145,6 +145,10 @@ public class MainApplication {
         System.out.println(getSum(0, 0));
         unsafe.compareAndSwapInt(MainApplication.class, ctl, 0, 10);
         System.out.println(i);
+
+        System.out.println(Arrays.toString(mergeSort(moneys)));
+        System.out.println(Arrays.toString(merge(weights,moneys)));
+
 //        int a = 1;
 //
 //        System.out.println(~a);
@@ -291,6 +295,49 @@ public class MainApplication {
         }
         return index;
     }
+    /**
+     * 归并排序
+     */
+    public static int[] mergeSort(int a[]) {
+        if (a == null || a.length < 2) {
+            return a;
+        }
+
+        return helper(a, 0, a.length - 1);
+    }
+
+    public static int[] helper(int a[], int left, int right) {
+        if (left == right) {
+            return new int[]{a[left]};
+        }
+        int sub = (left + right) >> 1;
+        int[] leftArr = helper(a, left, sub);
+        int[] rightArr = helper(a, sub + 1, right);
+
+        return merge(leftArr, rightArr);
+    }
+
+    private static int[] merge(int[] leftArr, int[] rightArr) {
+        int l = 0;
+        int r = 0;
+        int i = 0;
+        int lLength = leftArr.length;
+        int rLength = rightArr.length;
+        int[] result = new int[lLength + rLength];
+        while (l < lLength && r < rLength) {
+            result[i++] = leftArr[l] < rightArr[r] ? leftArr[l++] : rightArr[r++];
+        }
+
+        while(l < lLength) {
+            result[i++] = leftArr[l++];
+        }
+
+        while(r < rLength) {
+            result[i++] = rightArr[r++];
+        }
+
+        return result;
+    }
 
     /**
      * 选择排序
@@ -342,5 +389,27 @@ public class MainApplication {
         int temp = a[source];
         a[source] = a[target];
         a[target] = temp;
+    }
+
+    /**
+     * PPALL
+     * PPALLL
+     * @param record
+     * @return
+     */
+    public boolean check(String record) {
+        int aFlag = 0;
+        final char[] chars = record.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            if (chars[i] == 'P') {
+                continue;
+            } else if (chars[i] == 'A') {
+                aFlag ++;
+            } else {
+
+            }
+        }
+        return true;
     }
 }
