@@ -37,6 +37,28 @@ public class MainApplication {
     }
 
     /**
+     * 背包问题
+     * 10
+     * W 1 10 5 6 8
+     * M 3 10 10 12 4
+     * 部分时  (1,3) (5,10) (6,12) * 0.75 = 21
+     * 非部分时 (1,3) (6,12), () = 15
+     */
+    public static int searchMaxSumMoney1(int[] weights, int[] moneys, int number){
+        /*
+        * 1. 最优子结构
+        * 2. 边界
+        * 3. 状态转移方程式
+        * 4. 自底向上, 将方程式拆为最细粒度.
+        */
+        return 0;
+    }
+
+
+
+
+
+    /**
      * 当前存在一个重量为N的背包, 一组物品价格和重量, 找出可以存储的最大价格, 并且当剩余weight无法存储足够商品时
      * 允许存储部分商品.
      */
@@ -138,9 +160,10 @@ public class MainApplication {
     }
 
     public static void main(String[] args) {
-        int[] weights = new int[]{1, 3, 4, 6, 8};
-        int[] moneys = new int[]{4, 3, 9, 3, 2};
+        int[] weights = new int[]{1, 6, 4, 10, 8};
+        int[] moneys = new int[]{4, 6, 9, 10, 2};
         BigDecimal maxWeight = BigDecimal.valueOf(10);
+        System.out.println(searchMaxSumMoney1(weights, moneys, 10));
         System.out.println(        searchMaxSumMoney(weights, moneys, maxWeight));
         System.out.println(getSum(0, 0));
         unsafe.compareAndSwapInt(MainApplication.class, ctl, 0, 10);
