@@ -1,11 +1,50 @@
 package com.code;
 
+import com.code.entity.ListNode;
+
 /**
  * @author xz
  * @Description 链表测试
  * @date 2021/8/31 0031 14:51
  **/
 public class LinkedListTest {
+
+    // [1, 2, 3, 4]
+    public ListNode swapPairs(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode result = head.next;
+        if (result == null) {
+            return head;
+        }
+        int i = 0;
+        // 记录两个节点转换后的最后一个节点
+        ListNode last = null;
+        // 记录两个节点转换时的第一个节点
+        ListNode pre = null;
+        while (head != null) {
+            i++;
+            ListNode next = head.next;
+            // 两两替换
+            if (i == 2) {
+                i = 0;
+                // 如果前面存在两两转换后的, 将他的next 指向当前转换后的头节点 [1,2,3,4], last = [2,1] -> currentHead = [4,3]
+                if (last != null) {
+                    last.next = head;
+                }
+                last = pre;
+                head.next = pre;
+            } else {
+                // 记录两两分组中的前置节点
+                pre = head;
+            }
+            head = next;
+        }
+        // 当存在 [1,2,3,4,5] 时, 无法分配(2)一组, 所以需要处理最后一个节点.
+        last.next = last == pre ? null : pre;
+        return result;
+    }
 
     /**
      * 链表的技巧
