@@ -132,12 +132,22 @@ public class TreeTest {
         while (in[rootIndex] != pre[preL]) {
             rootIndex ++;
         }
-        // 当前节点 的先序起始下标 + 1, 先序起始下标 + (中序中获取的边界) 则就是先序中[左子节点]范围
-        // 然后将 当前中序起始下标, 根节点下标 - 1 则就是 中序数组中的 [左子节点] 范围
+        /*
+         * 根节点都是从前序遍历的数组中获取, 深度遍历一直到叶子节点
+         * 前序 [根] [左] [右]
+         * 中序 [左] [根] [右]
+         * preEnd = 当前起始 + (中序中找到的根位置 - 中序当前起始位置 = 左子树有多少个节点)
+         * 对于 left 节点
+         *  1. preEnd = 左子树的边界
+         *  2. 前序遍历 start + 1 则是左子树的起始节点.
+         *  3. left 本身在中序遍历起始位置 inStart 则无需变动 [左] [根] [右]
+         * 对于 right 节点
+         *  1. preEnd + 1 则就是右子树的起始下标
+         *  2. 前序的 end 则一定是右子树的边界下标
+         *  3. right 则在中序遍历的最右段，根 + 1则是 inStart
+         */
         int left = preL + rootIndex - inL;
         head.left = buildTree1(pre, in, preL + 1, left, inL, rootIndex - 1 );
-        // 同理, 根据当前得到的根节点下标, 将前序 和 中序 数组中的 [右子节点] 范围定位出
-        // 先序left边界 + 1 那就是 右边界起始位置, 中序则是 当前根节点 + 1
         int right = left + 1;
         head.right = buildTree1(pre, in, right, preR, rootIndex + 1, inR);
         return head;
