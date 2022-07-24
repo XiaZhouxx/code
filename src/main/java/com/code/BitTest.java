@@ -9,13 +9,13 @@ package com.code;
 public class BitTest {
 
     public static void main(String[] args) {
-        System.out.println(1 / 64);
-        System.out.println(bitAdd(3, 98));
-        System.out.println(bitSub(3, 98));
-        System.out.println(bitMulti(3, 98));
-        System.out.println(div(95, 3));
-        System.out.println(3 + (3 << 1) + (3 << 3));
-        bitMapTest();
+//        System.out.println(1 / 64);
+//        System.out.println(bitAdd(3, 98));
+//        System.out.println(bitSub(3, 98));
+//        System.out.println(bitMulti(3, 98));
+//        System.out.println(div(95, 3));
+//        System.out.println(3 + (3 << 1) + (3 << 3));
+//        bitMapTest();
     }
 
     /**

@@ -31,10 +31,11 @@ public class ForkJoinTest {
             int idx = start + (end - start) / 2;
             Sum sum = new Sum(arr, start, idx);
             Sum sum1 = new Sum(arr, idx + 1, end);
-            sum.fork();
+            // 异步子任务去执行了
             sum1.fork();
-
-            return sum.join() + sum1.join();
+            System.out.println(Thread.currentThread().getName());
+            // compute则调用线程执行 + 等待子任务执行完毕
+            return sum.compute() + sum1.join();
         }
     }
 }
